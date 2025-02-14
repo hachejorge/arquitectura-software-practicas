@@ -1,6 +1,6 @@
-public class OnlyUpCryptoBro extends CryptoBro {
+public class OnlyDownCryptoBro extends CryptoBro {
 
-    OnlyUpCryptoBro(String _name){
+    OnlyDownCryptoBro(String _name){
         name = _name;
     }
 
@@ -21,8 +21,8 @@ public class OnlyUpCryptoBro extends CryptoBro {
         }
 
         // Verificar si el evento es una subida
-        if (event == CryptoEventType.SUBIDA) {
-            System.out.println("OnlyUpCryptoBro " + this.name  + ": El precio anterior de " + name + " era " + precioAnterior + " y el nuevo precio es " + cryptoPrices.get(name));
+        if (event == CryptoEventType.BAJADA) {
+            System.out.println("OnlyDownCryptoBro " + this.name + ": El precio anterior de " + name + " era " + precioAnterior + " y el nuevo precio es " + cryptoPrices.get(name));
         }
     }
 }
