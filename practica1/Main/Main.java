@@ -1,34 +1,34 @@
 package Main;
 
-import CryptoBros.AllCryptoBro;
-import CryptoBros.OnlyDownCryptoBro;
-import CryptoBros.OnlyUpCryptoBro;
-import CryptoCurrencies.Bitcoin;
-import CryptoCurrencies.Etherium;
+import CryptoBros.CryptoBroConcrete;
+import CryptoCurrencies.CryptoCurrencyConcrete;
+import Utils.CryptoEventType;
 
 public class Main {
     public static void main(String[] args) {
 
-        Bitcoin bit = new Bitcoin(10);
-        Etherium et = new Etherium(5);
+        CryptoCurrencyConcrete bitcoin = new CryptoCurrencyConcrete("Bitcoin", 10);
+        CryptoCurrencyConcrete etherium = new CryptoCurrencyConcrete("Etherium", 5);
         
-        OnlyUpCryptoBro LauraBro = new OnlyUpCryptoBro("Laura");
-        OnlyUpCryptoBro MartaBro = new OnlyUpCryptoBro("Marta");
-        OnlyDownCryptoBro JorgeBro = new OnlyDownCryptoBro("Jorge");
-        AllCryptoBro MarioBro = new AllCryptoBro("Mario");
+        CryptoBroConcrete LauraBro = new CryptoBroConcrete("Laura");
+        CryptoBroConcrete MartaBro = new CryptoBroConcrete("Marta");
+        CryptoBroConcrete JorgeBro = new CryptoBroConcrete("Jorge");
+        CryptoBroConcrete MarioBro = new CryptoBroConcrete("Mario");
 
-        bit.addCryptoBro(LauraBro);
-        bit.addCryptoBro(JorgeBro);
-        bit.addCryptoBro(MarioBro);
+        bitcoin.addCryptoBro(LauraBro, CryptoEventType.SUBIDA);
+        bitcoin.addCryptoBro(JorgeBro, CryptoEventType.BAJADA);
+        bitcoin.addCryptoBro(MarioBro, CryptoEventType.ALL);
         
-        et.addCryptoBro(LauraBro);
-        et.addCryptoBro(MartaBro);
-        et.addCryptoBro(MarioBro);
+        etherium.addCryptoBro(LauraBro, CryptoEventType.SUBIDA);
+        etherium.addCryptoBro(MartaBro, CryptoEventType.SUBIDA);
+        etherium.addCryptoBro(MarioBro, CryptoEventType.BAJADA);
 
-        bit.setPrice(20);
+        bitcoin.removeAllCryptoBros();
 
-        bit.setPrice(15);
+        bitcoin.setPrice(20);
+
+        bitcoin.setPrice(15);
         
-        et.setPrice(30);
+        etherium.setPrice(30);
     }
 }

@@ -1,15 +1,15 @@
 package CryptoCurrencies;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import CryptoBros.CryptoBro;
 import Utils.CryptoEventType;
 
 
 
-// Clase abstracta que actúa como sujeto
+// Clase abstracta que actúa comallBroso sujeto
 public abstract class CryptoCurrency {
-    protected List<CryptoBro> allBros = new ArrayList<>();
+    protected Map<CryptoBro, CryptoEventType> allBros = new HashMap<>();
 
     protected String name;
     protected double price;
@@ -18,29 +18,38 @@ public abstract class CryptoCurrency {
         return name;
     }
 
-    public void addCryptoBro(CryptoBro bro) {
-        allBros.add(bro);
+    public void addCryptoBro(CryptoBro bro, CryptoEventType event) {
+        allBros.put(bro, event);
         bro.addCryptoCurrency(this);   
     }
 
     public void removeCryptoBro(CryptoBro bro) {
-        allBros.remove(bro);
         bro.removeCryptoCurrency(this); 
+        allBros.remove(bro);
     }
 
-    public void notifyCryptoBros(CryptoEventType event) {
-        for (CryptoBro bro : allBros) {
-            bro.update(event, name);
+    public void removeAllCryptoBros(){
+        for (Map.Entry<CryptoBro,CryptoEventType> entry : allBros.entrySet()) {
+            entry.getKey().removeCryptoCurrency(this);
+            allBros.remove(entry.getKey());
+        }
+    }
+
+    public void notifyCryptoBros(CryptoEventType event, double precioAnterior) {
+        for (Map.Entry<CryptoBro,CryptoEventType> entry : allBros.entrySet()) {
+            if (entry.getValue().equals(event)) 
+                entry.getKey().update(event, this, precioAnterior);
         }
     }
    
     public void setPrice(double newPrice){
         double lastPrice = price;
         price = newPrice;
+        notifyCryptoBros(CryptoEventType.ALL, lastPrice);
         if (lastPrice < price) {
-            notifyCryptoBros(CryptoEventType.SUBIDA);
+            notifyCryptoBros(CryptoEventType.SUBIDA, lastPrice);
         } else if (lastPrice > price){
-            notifyCryptoBros(CryptoEventType.BAJADA);
+            notifyCryptoBros(CryptoEventType.BAJADA, lastPrice);
         }
     }
 
