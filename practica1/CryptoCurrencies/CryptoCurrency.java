@@ -10,8 +10,6 @@ import Utils.CryptoEventType;
 // Clase abstracta que actúa como sujeto
 public abstract class CryptoCurrency {
     protected List<CryptoBro> allBros = new ArrayList<>();
-    // protected List<CryptoBro> upBros = new ArrayList<>();
-    // protected List<CryptoBro> downBros = new ArrayList<>();
 
     protected String name;
     protected double price;
@@ -37,7 +35,6 @@ public abstract class CryptoCurrency {
     }
    
     public void setPrice(double newPrice){
-        //System.out.println("dentro setPrice");
         double lastPrice = price;
         price = newPrice;
         if (lastPrice < price) {

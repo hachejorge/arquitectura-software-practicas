@@ -20,6 +20,7 @@ public class Main {
         bit.addCryptoBro(LauraBro);
         bit.addCryptoBro(JorgeBro);
         bit.addCryptoBro(MarioBro);
+        
         et.addCryptoBro(LauraBro);
         et.addCryptoBro(MartaBro);
         et.addCryptoBro(MarioBro);

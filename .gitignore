@@ -2,7 +2,7 @@
 *.vpp.bak*
 
 # Archivos temporales y de caché
-*.vpp.lock
+*.vpp.lck
 *.vpp~
 *.~vpp
 *.tmp

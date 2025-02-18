@@ -13,11 +13,9 @@ public abstract class CryptoBro {
 
     protected String name;
     protected Map<String, Double> cryptoPrices = new HashMap<>();
-
     protected List<CryptoCurrency> currencies = new ArrayList<>();
 
     public void addCryptoCurrency(CryptoCurrency moneda) {
-        //System.out.println("dentro addCryptoCurrency");
         currencies.add(moneda);
         cryptoPrices.put(moneda.getName(), moneda.getPrice()); 
     }
