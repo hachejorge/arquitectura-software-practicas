@@ -1,11 +1,17 @@
-public class OnlyDownCryptoBro extends CryptoBro {
+package CryptoBros;
 
-    OnlyDownCryptoBro(String _name){
+import CryptoCurrencies.CryptoCurrency;
+import Utils.CryptoEventType;
+
+
+public class AllCryptoBro extends CryptoBro {
+
+    public AllCryptoBro(String _name){
         name = _name;
     }
 
     @Override
-    void update(CryptoEventType event, String name) {
+    public void update(CryptoEventType event, String name) {
 
         //System.out.println("dentro update");
         // Obtener el precio anterior usando el mapa
@@ -20,9 +26,6 @@ public class OnlyDownCryptoBro extends CryptoBro {
             }
         }
 
-        // Verificar si el evento es una subida
-        if (event == CryptoEventType.BAJADA) {
-            System.out.println("OnlyDownCryptoBro " + this.name + ": El precio anterior de " + name + " era " + precioAnterior + " y el nuevo precio es " + cryptoPrices.get(name));
-        }
+        System.out.println("AllCryptoBro " + this.name + ": El precio anterior de " + name + " era " + precioAnterior + " y el nuevo precio es " + cryptoPrices.get(name));
     }
 }

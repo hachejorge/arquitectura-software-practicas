@@ -1,11 +1,18 @@
+package CryptoCurrencies;
 import java.util.ArrayList;
 import java.util.List;
+
+import CryptoBros.CryptoBro;
+import Utils.CryptoEventType;
 
 
 
 // Clase abstracta que actúa como sujeto
-abstract class CryptoCurrency {
-    protected List<CryptoBro> cryptobros = new ArrayList<>();
+public abstract class CryptoCurrency {
+    protected List<CryptoBro> allBros = new ArrayList<>();
+    // protected List<CryptoBro> upBros = new ArrayList<>();
+    // protected List<CryptoBro> downBros = new ArrayList<>();
+
     protected String name;
     protected double price;
 
@@ -14,18 +21,17 @@ abstract class CryptoCurrency {
     }
 
     public void addCryptoBro(CryptoBro bro) {
-        //System.out.println("dentro addCryptoBro");
-        cryptobros.add(bro);
+        allBros.add(bro);
         bro.addCryptoCurrency(this);   
     }
 
     public void removeCryptoBro(CryptoBro bro) {
-        cryptobros.remove(bro);
+        allBros.remove(bro);
         bro.removeCryptoCurrency(this); 
     }
 
     public void notifyCryptoBros(CryptoEventType event) {
-        for (CryptoBro bro : cryptobros) {
+        for (CryptoBro bro : allBros) {
             bro.update(event, name);
         }
     }

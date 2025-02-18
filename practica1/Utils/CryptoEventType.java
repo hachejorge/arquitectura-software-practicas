@@ -1,4 +1,6 @@
-enum CryptoEventType {
+package Utils;
+
+public enum CryptoEventType {
     SUBIDA,
     BAJADA,
     SUBIDA_EXPONENCIAL,

@@ -1,9 +1,15 @@
+package CryptoBros;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import CryptoCurrencies.CryptoCurrency;
+import Utils.CryptoEventType;
+
+
 import java.util.List;
 
-abstract class CryptoBro {
+public abstract class CryptoBro {
 
     protected String name;
     protected Map<String, Double> cryptoPrices = new HashMap<>();
@@ -21,5 +27,5 @@ abstract class CryptoBro {
         cryptoPrices.remove(moneda.getName()); 
     }
 
-    abstract void update(CryptoEventType event, String name);
+    public abstract void update(CryptoEventType event, String name);
 }
