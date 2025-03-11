@@ -6,10 +6,15 @@ import java.awt.Graphics2D;
 public class Association {
 
 	// Atributos
-	// ...
+	Class claseOrigen, claseDestino;
 	
-	// Constructores
-	// ...
+	int xOrigen, yOrigen, xDestino, yDestino;
+
+	public Association(Class claseOrigen, int xOrigen, int yOrigen) {
+		this.claseOrigen = claseOrigen;
+		this.xOrigen = xOrigen;
+		this.yOrigen = yOrigen;
+	}
 	
 	public void draw(Graphics graphics) {
 		// Dibuja la asociación
@@ -21,4 +26,8 @@ public class Association {
 	// Más métodos
 	// ...
 
+	public void setFinal(int x, int y) {
+		xDestino = x;
+		yDestino = y;
+	}
 }

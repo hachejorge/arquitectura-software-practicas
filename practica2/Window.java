@@ -12,7 +12,6 @@ public class Window implements ActionListener {
 	private JLabel labelNClasses; // numero de clases 
 	private JLabel labelNAssociations; // numero de asociaciones
 	
-
 	//metodos
 	public Window() {
 		super();

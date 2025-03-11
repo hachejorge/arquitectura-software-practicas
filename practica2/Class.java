@@ -10,6 +10,9 @@ public class Class {
 	private Vector<String> operations; 
 	private int x, y, width = 120, height = 80;
 
+    private Color colorFondo = Color.WHITE;
+    private Color colorBordes = Color.BLACK;
+
     public Class(){
 
     }
@@ -27,9 +30,9 @@ public class Class {
         Graphics2D g2 = (Graphics2D) g;
 
         // Dibujar el rectángulo
-        g2.setColor(Color.WHITE);
+        g2.setColor(colorFondo);
         g2.fillRect(x, y, width, height);
-        g2.setColor(Color.BLACK);
+        g2.setColor(colorBordes);
         g2.drawRect(x, y, width, height);
 
         // Dibujar el nombre de la clase
@@ -66,5 +69,19 @@ public class Class {
         return this.height;
     }
 
-	// …
+    public void setX(int _x){
+        this.x = _x;
+    }
+        
+    public void setY(int _y){
+        this.y = _y;
+    }
+
+    public void colorFondoAzul(){
+        colorFondo = Color.CYAN;
+    }
+
+    public void colorFondoBlanco(){
+        colorFondo = Color.WHITE;
+    }
 }
