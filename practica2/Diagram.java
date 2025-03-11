@@ -76,26 +76,19 @@ public class Diagram
 		if (SwingUtilities.isLeftMouseButton(e)){
 			int mouseX= e.getX();
 			int mouseY = e.getY();
+			
 			for(Class c : classes){
 				if((c.getX() <= mouseX && (c.getX() + c.getWidth()) >= mouseX ) && (c.getY() <= mouseY && (c.getY() + c.getHeight()) >= mouseY) ){
-					clasePulsada = c;		
+					clasePulsada = c;	
+					antigua_x = mouseX - clasePulsada.getX();
+					antigua_y = mouseY- clasePulsada.getY();	
 				}
 			}
 		}
    	}
     
 	public void mouseReleased(MouseEvent e) {
-		if(SwingUtilities.isLeftMouseButton(e)) {
-			int mouseX= e.getX();
-			int mouseY = e.getY();
-			
-			if(clasePulsada != null) {
-				clasePulsada.setX(mouseX);
-				clasePulsada.setY(mouseY);
-				repaint();
-				clasePulsada = null;
-			}
-		}
+		
 	}
     
 	public void mouseEntered(MouseEvent e) {
@@ -157,8 +150,8 @@ public class Diagram
     
 	public void mouseDragged(MouseEvent e) {
 		if(clasePulsada != null) {
-			clasePulsada.setX(e.getX());
-			clasePulsada.setY(e.getY());
+			clasePulsada.setX(e.getX() - antigua_x);
+			clasePulsada.setY(e.getY() - antigua_y);
 			repaint();
 			if( creadoAsociacion ) {
 				
