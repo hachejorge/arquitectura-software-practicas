@@ -49,13 +49,13 @@ public class Window implements ActionListener {
 	}
 	
 	private void setGridProperties(int gridx, int gridy, int gridwidth, int gridheight, double weightx, double weighty, int fill)
-{
-     		c.gridx = gridx;
-        	c.gridy = gridy;
-        	c.gridwidth = gridwidth;
-        	c.gridheight = gridheight;
-        	c.weightx = weightx;
-        	c.weighty = weighty;
+	{
+		c.gridx = gridx;
+		c.gridy = gridy;
+		c.gridwidth = gridwidth;
+		c.gridheight = gridheight;
+		c.weightx = weightx;
+		c.weighty = weighty;
 		c.fill = fill;
 	}
 

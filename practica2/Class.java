@@ -6,21 +6,15 @@ public class Class {
 	
 	//Atributos
 	private String name;
-	private Vector<String> attributes;
-	private Vector<String> operations; 
 	private int x, y, width = 120, height = 80;
 
     private Color colorFondo = Color.WHITE;
     private Color colorBordes = Color.BLACK;
 
-    public Class(){
-
-    }
+    public Class(){}
 
 	public Class(int n_class, int x, int y) {
         this.name = "Class " + n_class;
-        this.attributes = new Vector<>();  // Asegurarse de inicializar los atributos
-        this.operations = new Vector<>();  // Asegurarse de inicializar las operaciones
         this.x = x;
         this.y = y;
     }
@@ -47,11 +41,6 @@ public class Class {
 
     }
 
-	public void undraw(Graphics g) {
-        if (g == null) return;
-        g.setColor(Color.WHITE); // Color de fondo para "borrar"
-        g.fillRect(x, y, width, height); // Rellena el área con el color del fondo
-    }
 
 	public int getX(){
         return this.x;
@@ -83,5 +72,13 @@ public class Class {
 
     public void colorFondoBlanco(){
         colorFondo = Color.WHITE;
+    }
+
+    public void colorFondoVerde(){
+        colorFondo = Color.GREEN;
+    }
+
+    public Boolean contienteElPunto(int x, int y) {
+        return (this.getX() <= x) && (this.getX() + this.getWidth() >= x)  && (this.getY() <= y) && (this.getY() + this.getHeight() >= y);
     }
 }
