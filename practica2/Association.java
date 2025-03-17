@@ -27,7 +27,7 @@ public class Association {
         g2.setColor(Color.BLACK);
         g2.setStroke(new BasicStroke(2));
 
-        // Si la asociación es una auto-asociación, dibujar un lazo
+        // Si la asociación es una auto-asociación
         if (claseDestino != null && claseDestino == claseOrigen) {
             int squareSize = 30;  // Tamaño del cuadrado
 			int cx = xOrigen;     // Coordenada X de la clase
@@ -37,11 +37,21 @@ public class Association {
 			g2.drawLine(cx + 45, cy + 80 + squareSize, cx + 45 + squareSize, cy + 80 + squareSize);
 			g2.drawLine(cx + 45, cy + 80, cx + 45, cy + 80 + squareSize);
 			g2.drawLine(cx + 45 + squareSize, cy + 80, cx + 45 + squareSize, cy + 80 + squareSize);
+
+        // Si la asociación es entre dos clases
         } else {
             // Dibujar línea normal entre clases
             g2.drawLine(xOrigen, yOrigen, xDestino, yDestino);
         }
 	}
+
+    public Class getClaseOrigen() {
+        return this.claseOrigen;
+    }
+
+    public Class getClaseDestino() {
+        return this.claseDestino;
+    }
 
 	public void setOrigen(int x, int y) {
 		xOrigen = x;

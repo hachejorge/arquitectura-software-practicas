@@ -42,6 +42,7 @@ public class Class {
     }
 
 
+    //Getters y setters
 	public int getX(){
         return this.x;
     }	
@@ -66,6 +67,7 @@ public class Class {
         this.y = _y;
     }
 
+    //Funciones para modificar el color de la clase
     public void colorFondoAzul(){
         colorFondo = Color.CYAN;
     }
@@ -78,6 +80,7 @@ public class Class {
         colorFondo = Color.GREEN;
     }
 
+    //Función que comprueba si un punto pertenece al area que ocupa una clase
     public Boolean contienteElPunto(int x, int y) {
         return (this.getX() <= x) && (this.getX() + this.getWidth() >= x)  && (this.getY() <= y) && (this.getY() + this.getHeight() >= y);
     }

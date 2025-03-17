@@ -112,8 +112,17 @@ public class Diagram
 				}
 			}
 
+			Boolean permitir = true;
+			Class origen = asociacionEnCurso.getClaseOrigen();
+			for (Association a: associations) {
+				if (a != asociacionEnCurso) {
+					if((a.getClaseOrigen()==origen && a.getClaseDestino() == claseDestino) || a.getClaseOrigen()==claseDestino && a.getClaseDestino() == origen ) {
+						permitir = false;
+					}
+				}
+			}
 			// Si se suelta sobre una clase válida, se crea la asociación
-			if (claseDestino != null ) {
+			if (claseDestino != null && permitir) {
 				asociacionEnCurso.setFinal(claseDestino.getX() + claseDestino.getWidth() / 2,
 						claseDestino.getY() + claseDestino.getHeight() / 2);
 				asociacionEnCurso.setDestino(claseDestino);
