@@ -5,7 +5,7 @@ public class Cliente {
         try {
             // Paso 1 - Obtener una referencia al objeto servidor creado anteriormente
             // Nombre del host servidor o su IP. Es dó nde se buscar á al objeto remoto
-            String hostname = "localhost"; // se puede usar "IP:puerto "
+            String hostname = "172.20.10.4"; // se puede usar "IP:puerto "
             Collection server = (Collection) Naming.lookup ("//"+ hostname + "/MyCollection") ;
             // Paso 2 - Invocar remotamente los metodos del objeto servidor :
 
@@ -25,7 +25,7 @@ public class Cliente {
 
         }
         catch ( Exception ex ) {
-            System . out . println ( ex );
+            System.out.println ( ex );
         }
     }
 }

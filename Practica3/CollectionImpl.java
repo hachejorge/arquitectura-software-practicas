@@ -32,7 +32,7 @@ public class CollectionImpl extends UnicastRemoteObject implements Collection {
     
         // Nombre o IP del host donde reside el objeto servidor
         
-        String hostName = "localhost"; // se puede usar IPhostremoto : puerto "
+        String hostName = "172.20.10.4"; // se puede usar IPhostremoto : puerto "
 
         // Por defecto , RMI usa el puerto 1099
         try {
