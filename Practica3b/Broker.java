@@ -1,23 +1,25 @@
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+import java.util.List;
 
-public class Broker extends UnicastRemoteObject {
-    
+public class Broker extends UnicastRemoteObject implements BrokerAbs {
+
     // Nombre Servidor -> IP
     private Map<String, String> servidores;
 
-    // Nombre Servicio -> Nombre Servidor
+    // Servicios
     private List<Servicio> servicios;
 
     // Constructor del Broker
     public Broker() throws RemoteException {
         super();
         servidores = new HashMap<String, String>();
-        servicios = new List<Servicio>();
+        servicios = new ArrayList<Servicio>();
     }
 
     // API SERVIDOR
@@ -30,15 +32,15 @@ public class Broker extends UnicastRemoteObject {
             System.out.println("El servidor ya está registrado.");
         }
     }
-        
+
     // Dar de alta un servicio
     public void alta_servicio(Servicio service) throws RemoteException {
         if (servidores.containsKey(service.getNombreServidor())) {
-            if (!servicios.containsKey(service.getNombreServicio())) {
-                servicios.put(service);
-                System.out.println("Servicio '" + service.getNombreServicio() + "' registrado en servidor '" + service.getNombreServidor() + "'");
-            } else {
+            Servicio s = obtenerServicioPorNombre(service.getNombreServicio());
+            if (s != null) {
                 System.out.println("El servicio '" + service.getNombreServicio() + "' ya está registrado.");
+            } else {
+                servicios.add(service);
             }
         } else {
             System.out.println("El servidor '" + service.getNombreServidor() + "' no está registrado.");
@@ -47,51 +49,66 @@ public class Broker extends UnicastRemoteObject {
 
     // Dar de baja un servicio
     public void baja_servicio(String nom_servicio) throws RemoteException {
-        if (servicios.containsKey(nom_servicio)) {
-            servicios.remove(nom_servicio);
-            System.out.println("Servicio '" + nom_servicio + "' eliminado.");
-        } else {
-            System.out.println("El servicio '" + nom_servicio + "' no está registrado.");
+        Servicio s = obtenerServicioPorNombre(nom_servicio);
+        if (s != null) {
+            servicios.remove(s);
         }
     }
 
-    public List<Servicio> obtener_servicios() {
+    public List<Servicio> obtener_servicios() throws RemoteException {
         return servicios; // Retorna todos los valores del mapa como una lista
     }
 
     // Ejecutar un servicio
     public String ejecutar_servicio(String nombre_servicio, Vector<String> parametros) throws RemoteException {
-        if (servicios.containsKey(nombre_servicio)) {
-            Servicio service = servicios.get(nombre_servicio);
-            String direccionServidor = servidores.get(service.getNombreServidor());
+        Servicio s = obtenerServicioPorNombre(nombre_servicio);
+        if (s != null) {
+            String direccionServidor = servidores.get(s.getNombreServidor());
 
-            System.out.println("Ejecutando servicio '" + nombre_servicio + "' en servidor '" + service.getNombreServidor() +
-                            "' con dirección: " + direccionServidor + " y parámetros: " + parametros);
-
+            System.out.println("Ejecutando servicio '" + nombre_servicio + "' en servidor '" + s.getNombreServidor() +
+                    "' con dirección: " + direccionServidor + " y parámetros: " + parametros);
             try {
                 // Buscar el servicio en el servidor remoto
-                ServidorJL15 servidor = (ServidorJL15) Naming.lookup("//" + direccionServidor + "/" + service.getNombreServidor());
-                return servidor.{service.getFuncion()}(parametros);
+                ServerJL15 servidor = (ServerJL15) Naming
+                        .lookup("//" + direccionServidor + "/" + s.getNombreServidor());
+
+                Object[] parametrosArray = parametros.toArray(new Object[0]);
+
+                System.out.println("Parámetros:" + parametrosArray);
+
+                return servidor.ejecutar_servicio(nombre_servicio, parametrosArray);
+
             } catch (Exception e) {
                 System.out.println("Error al ejecutar el servicio: " + e.getMessage());
                 return "Error al ejecutar el servicio";
             }
         } else {
-            return "El servicio '" + service.getNombreServidor() + "' no está registrado.";
+            return "El servicio '" + nombre_servicio + "' no está registrado.";
         }
+    }
+
+    // Funciones Auxiliar
+    private Servicio obtenerServicioPorNombre(String nombre) {
+        for (Servicio s : servicios) {
+            if (s.getNombreServicio().equals(nombre)) {
+                return s;
+            }
+        }
+        return null;
     }
 
     // Método main que arranca el servidor RMI
     public static void main(String[] args) {
-        String hostName = "localhost"; // Aquí puedes poner la IP o nombre del host remoto
+        String hostName = "155.210.154.204:32003"; // Aquí puedes poner la IP o nombre del host remoto
         try {
             // Crear objeto remoto (Broker)
             Broker obj = new Broker();
             System.out.println("Broker creado!");
-            
+
             // Registrar el objeto remoto en el registro RMI
             Naming.rebind("//" + hostName + "/MyBrokerJL15", obj);
             System.out.println("Broker registrado en RMI!");
+
         } catch (Exception ex) {
             System.out.println("Error en el servidor RMI: " + ex);
         }

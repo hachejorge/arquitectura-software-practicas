@@ -1,10 +1,10 @@
 import java.util.Vector;
+import java.io.Serializable;
 
-public class Servicio {
+public class Servicio implements Serializable {
     private String nombre_servicio;
     private String nombre_servidor;
-    private String funcion;
-    private Vector<T> parametros;
+    private Vector<String> parametros;
     private String retorno;
 
     // Constructor por defecto
@@ -13,10 +13,10 @@ public class Servicio {
     }
 
     // Constructor con parámetros
-    public Servicio(String nombre_servicio, String nombre_servidor String funcion, Vector<T> parametros, String retorno) {
+    public Servicio(String nombre_servicio, String nombre_servidor, Vector<String> parametros,
+            String retorno) {
         this.nombre_servicio = nombre_servicio;
         this.nombre_servidor = nombre_servidor;
-        this.funcion = funcion;
         this.parametros = parametros;
         this.retorno = retorno;
     }
@@ -38,19 +38,11 @@ public class Servicio {
         this.nombre_servidor = nombre_servidor;
     }
 
-    public String getFuncion() {
-        return funcion;
-    }
-
-    public void setFuncion(String funcion) {
-        this.funcion = funcion;
-    }
-
-    public Vector<T> getParametros() {
+    public Vector<String> getParametros() {
         return parametros;
     }
 
-    public void setParametros(Vector<T> parametros) {
+    public void setParametros(Vector<String> parametros) {
         this.parametros = parametros;
     }
 
