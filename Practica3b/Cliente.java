@@ -42,6 +42,9 @@ public class Cliente {
                     continue;
                 }
 
+                System.out.print("\nQuieres que se ejecute de forma asíncrona [S/n](por defecto no): ");
+                String asincronia = sc.nextLine();
+
                 // Pedir al usuario los parámetros del servicio
                 Vector<String> parametros = new Vector<>();
                 List<String> tiposParametros = servicioSeleccionado.getParametros();
@@ -52,9 +55,22 @@ public class Cliente {
                     parametros.add(valor);
                 }
 
-                // Llamar al broker para ejecutar el servicio
-                String resultado = broker.ejecutar_servicio(nombreServicio, parametros);
-                System.out.println("Resultado: " + resultado);
+                if (asincronia.equalsIgnoreCase("S")) {
+                    System.out.println("Ejecutando servicio '" + nombreServicio + "' de forma asíncrona");
+                    broker.ejecutar_servicio_asinc("cliente1", nombreServicio, parametros);
+
+                    System.out.print("\nPresione la tecla ENTER cuando quiera obtener los resultados: ");
+                    String ignore = sc.nextLine();
+
+                    String resultado = broker.obtener_respuesta_asinc("cliente1", nombreServicio);
+                    System.out.println("Resultado: " + resultado);
+
+                } else {
+                    // Llamar al broker para ejecutar el servicio de forma síncrona
+                    String resultado = broker.ejecutar_servicio(nombreServicio, parametros);
+                    System.out.println("Resultado: " + resultado);
+                }
+
             }
 
             sc.close();

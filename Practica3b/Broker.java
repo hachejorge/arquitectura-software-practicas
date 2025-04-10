@@ -15,6 +15,10 @@ public class Broker extends UnicastRemoteObject implements BrokerAbs {
     // Servicios
     private List<Servicio> servicios;
 
+    // Estructura: Map<nombreServicio, Map<nombreCliente, Resultado>>
+    private Map<String, Map<String, String>> respuestasPendientes = new HashMap<>();
+    private Map<String, Map<String, Boolean>> respuestasEntregadas = new HashMap<>();
+
     // Constructor del Broker
     public Broker() throws RemoteException {
         super();
@@ -55,6 +59,8 @@ public class Broker extends UnicastRemoteObject implements BrokerAbs {
         }
     }
 
+    // API CLIENTE
+
     public List<Servicio> obtener_servicios() throws RemoteException {
         return servicios; // Retorna todos los valores del mapa como una lista
     }
@@ -85,6 +91,70 @@ public class Broker extends UnicastRemoteObject implements BrokerAbs {
         } else {
             return "El servicio '" + nombre_servicio + "' no está registrado.";
         }
+    }
+
+    public void ejecutar_servicio_asinc(String nom_cliente, String nombre_servicio, Vector<String> parametros)
+            throws RemoteException {
+        Servicio s = obtenerServicioPorNombre(nombre_servicio);
+        if (s == null) {
+            System.out.println("El servicio '" + nombre_servicio + "' no está registrado.");
+            return;
+        }
+
+        // Verificamos si ya hay una solicitud pendiente para este cliente y servicio
+        if (respuestasPendientes.containsKey(nombre_servicio) &&
+                respuestasPendientes.get(nombre_servicio).containsKey(nom_cliente)) {
+            System.out.println("Ya existe una solicitud pendiente para este cliente y servicio.");
+            return;
+        }
+
+        String direccionServidor = servidores.get(s.getNombreServidor());
+
+        try {
+            ServerJL15 servidor = (ServerJL15) Naming
+                    .lookup("//" + direccionServidor + "/" + s.getNombreServidor());
+
+            Object[] parametrosArray = parametros.toArray(new Object[0]);
+            String resultado = servidor.ejecutar_servicio(nombre_servicio, parametrosArray);
+
+            // Guardamos el resultado para que el cliente lo recoja más tarde
+            respuestasPendientes
+                    .computeIfAbsent(nombre_servicio, k -> new HashMap<>())
+                    .put(nom_cliente, resultado);
+
+            respuestasEntregadas
+                    .computeIfAbsent(nombre_servicio, k -> new HashMap<>())
+                    .put(nom_cliente, false);
+
+            System.out.println("Solicitud asíncrona procesada para cliente " + nom_cliente);
+
+        } catch (Exception e) {
+            System.out.println("Error al ejecutar el servicio asíncrono: " + e.getMessage());
+        }
+    }
+
+    public String obtener_respuesta_asinc(String nom_cliente, String nombre_servicio) throws RemoteException {
+
+        if (!respuestasPendientes.containsKey(nombre_servicio) ||
+                !respuestasPendientes.get(nombre_servicio).containsKey(nom_cliente)) {
+            return "Error: El cliente no había realizado previamente la solicitud o el servicio no existe.";
+        }
+
+        if (respuestasEntregadas.get(nombre_servicio).get(nom_cliente)) {
+            return "Error: La respuesta ya fue entregada previamente.";
+        }
+
+        // Se puede entregar la respuesta
+        String resultado = respuestasPendientes.get(nombre_servicio).get(nom_cliente);
+
+        // Marcar como entregada
+        respuestasEntregadas.get(nombre_servicio).put(nom_cliente, true);
+
+        // Opcional: limpiar estructuras si ya no se usará más
+        // respuestasPendientes.get(nombre_servicio).remove(nombreCliente);
+        // respuestasEntregadas.get(nombre_servicio).remove(nombreCliente);
+
+        return resultado;
     }
 
     // Funciones Auxiliar

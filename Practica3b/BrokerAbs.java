@@ -14,4 +14,9 @@ public interface BrokerAbs extends Remote {
 
     public abstract String ejecutar_servicio(String nombre_servicio, Vector<String> parametros) throws RemoteException;
 
+    public abstract void ejecutar_servicio_asinc(String nom_cliente, String nombre_servicio, Vector<String> parametros)
+            throws RemoteException;
+
+    public abstract String obtener_respuesta_asinc(String nom_cliente, String nombre_servicio) throws RemoteException;
+
 };
