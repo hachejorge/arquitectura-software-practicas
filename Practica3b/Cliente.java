@@ -1,3 +1,9 @@
+// Cliente.java
+
+// Este cliente se conecta a un broker RMI y permite al usuario ejecutar servicios de forma síncrona o asíncrona
+// El cliente solicita al usuario el nombre del servicio y los parámetros necesarios para ejecutarlo
+// Se ejecuta de forma interactiva
+
 import java.rmi.Naming;
 import java.util.List;
 import java.util.Scanner;

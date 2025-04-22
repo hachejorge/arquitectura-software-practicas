@@ -1,3 +1,7 @@
+// ServidorJL15_02.java
+// Este servidor da de alta un servicio en el broker:
+// cuenta_vocales, que cuenta el número de vocales en una palabra.
+
 import java.lang.reflect.Method;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -58,7 +62,7 @@ public class ServidorJL15_02 extends UnicastRemoteObject implements ServerJL15 {
         // Por defecto , RMI usa el puerto 1099
         try {
             // Crear objeto remoto
-            ServidorJL15_01 server = new ServidorJL15_01();
+            ServidorJL15_02 server = new ServidorJL15_02();
             System.out.println(" [Servidor] Creado !");
             // Registrar el objeto remoto
             Naming.rebind("//" + host + "/ServidorJL15_02", server);

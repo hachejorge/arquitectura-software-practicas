@@ -17,7 +17,6 @@ public class Broker extends UnicastRemoteObject implements BrokerAbs {
 
     // Estructura: Map<nombreServicio, Map<nombreCliente, Resultado>>
     private Map<String, Map<String, String>> respuestasPendientes = new HashMap<>();
-    private Map<String, Map<String, Boolean>> respuestasEntregadas = new HashMap<>();
 
     // Constructor del Broker
     public Broker() throws RemoteException {
@@ -101,7 +100,7 @@ public class Broker extends UnicastRemoteObject implements BrokerAbs {
             return;
         }
 
-        // Verificamos si ya hay una solicitud pendiente para este cliente y servicio
+        // Verificamos si ya hay una solicitud pendiente para este cliente y servicio (3)
         if (respuestasPendientes.containsKey(nombre_servicio) &&
                 respuestasPendientes.get(nombre_servicio).containsKey(nom_cliente)) {
             System.out.println("Ya existe una solicitud pendiente para este cliente y servicio.");
@@ -122,10 +121,6 @@ public class Broker extends UnicastRemoteObject implements BrokerAbs {
                     .computeIfAbsent(nombre_servicio, k -> new HashMap<>())
                     .put(nom_cliente, resultado);
 
-            respuestasEntregadas
-                    .computeIfAbsent(nombre_servicio, k -> new HashMap<>())
-                    .put(nom_cliente, false);
-
             System.out.println("Solicitud asíncrona procesada para cliente " + nom_cliente);
 
         } catch (Exception e) {
@@ -134,25 +129,19 @@ public class Broker extends UnicastRemoteObject implements BrokerAbs {
     }
 
     public String obtener_respuesta_asinc(String nom_cliente, String nombre_servicio) throws RemoteException {
-
+        // Error si el cliente no habia solicitado el servicio, (2-i)
+        //     o si no es mismo cliente (2-ii)
+        //     o si ya se ha recogido la respuesta (2-iii)
         if (!respuestasPendientes.containsKey(nombre_servicio) ||
                 !respuestasPendientes.get(nombre_servicio).containsKey(nom_cliente)) {
-            return "Error: El cliente no había realizado previamente la solicitud o el servicio no existe.";
-        }
-
-        if (respuestasEntregadas.get(nombre_servicio).get(nom_cliente)) {
-            return "Error: La respuesta ya fue entregada previamente.";
+            return "Error: El cliente no ha solicitado el servicio '" + nombre_servicio + "' o ya ha recogido la respuesta.";
         }
 
         // Se puede entregar la respuesta
         String resultado = respuestasPendientes.get(nombre_servicio).get(nom_cliente);
-
-        // Marcar como entregada
-        respuestasEntregadas.get(nombre_servicio).put(nom_cliente, true);
-
-        // Opcional: limpiar estructuras si ya no se usará más
-        // respuestasPendientes.get(nombre_servicio).remove(nombreCliente);
-        // respuestasEntregadas.get(nombre_servicio).remove(nombreCliente);
+        
+        // Respuesta ya entregada, la borramos
+        respuestasPendientes.get(nombre_servicio).remove(nom_cliente);
 
         return resultado;
     }

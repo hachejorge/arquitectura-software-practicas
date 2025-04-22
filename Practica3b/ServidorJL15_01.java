@@ -1,3 +1,7 @@
+// ServidorJL15_01.java
+// Este servidor da de alta 4 cuatro servicios en el broker:
+// suma, resta, multiplicar y cuadrado.
+
 import java.lang.reflect.Method;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
