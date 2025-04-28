@@ -66,6 +66,7 @@ public class Cliente {
                     broker.ejecutar_servicio_asinc("cliente1", nombreServicio, parametros);
 
                     System.out.print("\nPresione la tecla ENTER cuando quiera obtener los resultados: ");
+                    asincronia = sc.nextLine();
 
                     String resultado = broker.obtener_respuesta_asinc("cliente1", nombreServicio);
                     System.out.println("Resultado: " + resultado);
