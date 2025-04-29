@@ -2,7 +2,6 @@
 // Este servidor da de alta 4 cuatro servicios en el broker:
 // suma, resta, multiplicar y cuadrado.
 
-
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.Vector;
@@ -12,7 +11,7 @@ public class ServidorJL15_01 extends ServerJL15Impl {
     public ServidorJL15_01() throws RemoteException {
     }
 
-    //Servicio de suma que recibe dos números como cadenas y retorna su suma.
+    // Servicio de suma que recibe dos números como cadenas y retorna su suma.
     public int suma(String a, String b) {
         return Integer.parseInt(a) + Integer.parseInt(b);
     }
@@ -22,18 +21,19 @@ public class ServidorJL15_01 extends ServerJL15Impl {
         return Integer.parseInt(a) - Integer.parseInt(b);
     }
 
-    //Servicio de multiplicación que recibe dos números como cadenas y retorna su multiplicación.
+    // Servicio de multiplicación que recibe dos números como cadenas y retorna su
+    // multiplicación.
     public int multiplicar(String a, String b) {
         return Integer.parseInt(a) * Integer.parseInt(b);
     }
 
-    //Servicio de cuadrado que recibe un número como cadena y retorna su cuadrado.
+    // Servicio de cuadrado que recibe un número como cadena y retorna su cuadrado.
     public int cuadrado(String a) {
         return Integer.parseInt(a) * Integer.parseInt(a);
     }
 
-
-    //Método principal para iniciar el servidor. Registra el servidor y los servicios en el broker RMI.
+    // Método principal para iniciar el servidor. Registra el servidor y los
+    // servicios en el broker RMI.
     public static void main(String args[]) {
 
         String host = "155.210.154.206:32003"; // Dirección del servidor
@@ -55,7 +55,7 @@ public class ServidorJL15_01 extends ServerJL15Impl {
 
             // Registrar el servidor en el Broker
             broker.registrar_servidor("ServidorJL15_01", host);
-            
+
             // Definir los parámetros de los servicios
             Vector<String> parametrosSuma = new Vector<>();
             parametrosSuma.add("int");
